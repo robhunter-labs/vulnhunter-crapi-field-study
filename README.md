@@ -21,7 +21,9 @@ This is the historical source of the experiment controls, not a toy reimplementa
 | [`source/qualification/`](source/qualification/) | Local crAPI runtime qualification, including controlled account setup and cross-principal test behavior. |
 | [`source/review-workbench/`](source/review-workbench/) | Candidate packet preparation, immutable binding checks, explicit human dispositions, and 12 portable provider-free tests. |
 
-The study code is **not a turn-key scanner**. Its frozen run IDs, digests, paths, model assumptions, container images, signed scope, and source-custody dependencies describe the original controlled run. Machine-local roots have been replaced with obvious `/path/to/...` placeholders, and private control-plane names and paths have been generalized in this public copy. Those substitutions make the source inspectable, not directly executable against the original environment. Do not execute the engine/controller against a real target without your own authorization, dependency review, exact source pins, isolation, and a new scope. The original private runtime logs, credentials/tokens generated in the lab, signed scope, raw model transcripts, and complete candidate corpus are intentionally not in this repository. That omission prevents a byte-for-byte re-run of the original experiment; it does not alter the reported outcome.
+The study code is **not a turn-key scanner or a portable crAPI harness**. It is the source of one controlled run. Local filesystem roots were replaced with conspicuous `/path/to/...` placeholders before publication, but study-specific schema names, fixed run IDs, and local temporary-path conventions remain in the code. These are historical labels, not a general configuration interface. In particular, the crAPI controller imports an engine and qualifier through a placeholder study root; the qualifier expects Compose overrides, an image lock, source-admission controls, and other inputs that are not distributed here. The controller/qualifier cannot be run end-to-end from a fresh clone. Do not replace those placeholders and run against a real target without authorization, source and dependency review, containment, exact pins, and a new scope.
+
+The original private runtime logs, credentials/tokens generated in the lab, signed scope, raw model transcripts, and complete candidate corpus are intentionally not in this repository. Their omission prevents a byte-for-byte re-run of the historical experiment. No live secret or personal home-directory path is intended to be published; generated local receipts can still contain a caller's absolute input paths and must be reviewed before sharing.
 
 The review-workbench code is independently testable with Python’s standard library:
 
@@ -29,6 +31,8 @@ The review-workbench code is independently testable with Python’s standard lib
 cd source/review-workbench
 python3 test_review_workbench.py
 ```
+
+That command runs provider-free fixtures; it does not validate a new VulnHunter run. `prepare_review.py` needs a completed results directory, a matching native validation record, and a raw event log. Its direct-PASS path currently trusts two self-declared status fields when the producer omits path and digest bindings, so do not treat `DIRECT_NATIVE_PASS` as independent proof until those bindings are required and tested. The hidden evaluator in the historical qualifier also uses a fixed temporary path and a write-before-`chmod` sequence; do not use it for real credentials or in a shared local environment. These are known limitations, not features of a reusable tool.
 
 ## What the reader can take away
 
