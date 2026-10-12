@@ -132,14 +132,23 @@ def validation_chain(
     if reconciliation_path is None:
         if validation.get("status") != "PASS" or validation.get("actual_consumer_observed") is not True:
             raise Refusal("native validation has not proved the actual consumer; an additive reconciliation is required")
+        if validation.get("schema") != "ospt.full-vulnhunter-native-validation.v1":
+            raise Refusal("native validation schema is not the signed controller's contract")
+        if validation.get("synthetic_fixture") is not False or validation.get("defects") != []:
+            raise Refusal("native validation is synthetic or defect-bearing")
+        binding = validation.get("controller_binding")
+        if not isinstance(binding, dict) or not binding.get("scope_sha256"):
+            raise Refusal("native validation lacks a controller binding")
         declared_results = validation.get("results_path")
-        if declared_results and Path(str(declared_results)).resolve() != results:
+        if not isinstance(declared_results, str) or not declared_results.strip():
+            raise Refusal("native validation lacks a results directory binding")
+        if Path(declared_results).resolve() != results:
             raise Refusal("native validation names a different results directory")
         declared_manifest = validation.get("results_manifest_sha256")
-        if declared_manifest and declared_manifest != results_sha:
+        if declared_manifest != results_sha:
             raise Refusal("native validation results manifest differs from the supplied results")
         declared_raw = validation.get("raw_log_sha256")
-        if declared_raw and declared_raw != raw_sha:
+        if declared_raw != raw_sha:
             raise Refusal("native validation raw-log digest differs from the supplied log")
         return {
             "mode": "DIRECT_NATIVE_PASS",
@@ -321,6 +330,9 @@ def build_packet(
     raw_path = regular_file(raw_log, "raw event log")
     chain = validation_chain(results, validation_path, raw_path, reconciliation)
     entries, manifest_sha = directory_manifest(results)
+    entry_digest = sha_bytes(canonical_bytes({entry["path"]: entry["sha256"] for entry in entries}))
+    if entry_digest != chain["controller_results_manifest_sha256"]:
+        raise Refusal("results changed after validation-chain verification")
     readme = regular_file(results / "README.md", "final report")
     candidates = extract_candidates(readme)
     population_count = len(candidates)
@@ -342,6 +354,8 @@ def build_packet(
                 "artifacts": artifacts_for(results, candidate["candidate_id"]),
             }
         )
+    if controller_manifest_sha(results) != chain["controller_results_manifest_sha256"]:
+        raise Refusal("results changed while preparing the review packet")
     subject = {
         "run_id": run_id,
         "results_manifest_sha256": manifest_sha,

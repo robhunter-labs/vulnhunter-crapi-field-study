@@ -41,9 +41,15 @@ def fixture(root: Path, *, validation_pass: bool = True) -> tuple[Path, Path, Pa
     write_json(
         validation,
         {
+            "schema": "ospt.full-vulnhunter-native-validation.v1",
             "status": "PASS" if validation_pass else "KICKBACK",
             "actual_consumer_observed": validation_pass,
+            "synthetic_fixture": False,
+            "defects": [],
+            "controller_binding": {"scope_sha256": "fixture-scope"},
             "results_path": str(results.resolve()),
+            "results_manifest_sha256": prepare_review.controller_manifest_sha(results),
+            "raw_log_sha256": prepare_review.sha_file(raw),
         },
     )
     return results, validation, raw
@@ -119,6 +125,69 @@ def test_prepare_refuses_unproved_consumer() -> None:
             check("actual consumer" in str(exc), "consumer refusal explains gate")
         else:
             raise AssertionError("KICKBACK validation was accepted")
+
+
+def test_prepare_direct_pass_requires_exact_evidence_bindings() -> None:
+    with tempfile.TemporaryDirectory() as name:
+        root = Path(name)
+        results, validation, raw = fixture(root)
+        original = prepare_review.load_json(validation)
+        for field in ("results_path", "results_manifest_sha256", "raw_log_sha256"):
+            for broken in (None, "", "wrong"):
+                value = dict(original)
+                if broken is None:
+                    del value[field]
+                else:
+                    value[field] = broken
+                write_json(validation, value)
+                try:
+                    prepare_review.build_packet("TEST-RUN", results, validation, raw)
+                except prepare_review.Refusal:
+                    pass
+                else:
+                    raise AssertionError(f"direct PASS accepted {field}={broken!r}")
+        write_json(validation, original)
+        packet, _ = prepare_review.build_packet("TEST-RUN", results, validation, raw)
+        check(packet["validation_chain"]["mode"] == "DIRECT_NATIVE_PASS", "bound native PASS remains usable")
+
+
+def test_prepare_direct_pass_refuses_synthetic_or_defect_bearing_record() -> None:
+    with tempfile.TemporaryDirectory() as name:
+        results, validation, raw = fixture(Path(name))
+        original = prepare_review.load_json(validation)
+        for field, replacement in (("synthetic_fixture", True), ("defects", ["unresolved"]),
+                                   ("controller_binding", None), ("schema", "other")):
+            changed = dict(original)
+            changed[field] = replacement
+            write_json(validation, changed)
+            try:
+                prepare_review.build_packet("TEST-RUN", results, validation, raw)
+            except prepare_review.Refusal:
+                pass
+            else:
+                raise AssertionError(f"direct PASS accepted {field}={replacement!r}")
+
+
+def test_prepare_refuses_results_changed_after_validation_chain() -> None:
+    with tempfile.TemporaryDirectory() as name:
+        results, validation, raw = fixture(Path(name))
+        original_chain = prepare_review.validation_chain
+
+        def changed_chain(*args: object) -> dict:
+            chain = original_chain(*args)
+            (results / "README.md").write_text("changed after validation\n")
+            return chain
+
+        prepare_review.validation_chain = changed_chain
+        try:
+            try:
+                prepare_review.build_packet("TEST-RUN", results, validation, raw)
+            except prepare_review.Refusal as exc:
+                check("results changed" in str(exc), "snapshot drift refused")
+            else:
+                raise AssertionError("changed results were accepted")
+        finally:
+            prepare_review.validation_chain = original_chain
 
 
 def test_prepare_accepts_additive_reconciliation_without_rewriting_failure() -> None:
@@ -301,6 +370,9 @@ def main() -> None:
         test_prepare_binds_candidate_and_artifacts,
         test_extract_prefers_richer_row_with_escaped_table_pipe,
         test_prepare_refuses_unproved_consumer,
+        test_prepare_direct_pass_requires_exact_evidence_bindings,
+        test_prepare_direct_pass_refuses_synthetic_or_defect_bearing_record,
+        test_prepare_refuses_results_changed_after_validation_chain,
         test_prepare_accepts_additive_reconciliation_without_rewriting_failure,
         test_prepare_refuses_wrong_original_or_results_binding,
         test_prepare_exact_subset_and_missing_id_refusal,
