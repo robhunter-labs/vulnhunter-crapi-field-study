@@ -18,6 +18,7 @@ from pathlib import Path
 import re
 import shutil
 import socket
+import stat
 import subprocess
 import sys
 import time
@@ -97,6 +98,56 @@ def write_json(path: Path, value: Any, mode: int | None = None) -> None:
     path.write_bytes(canonical_bytes(value))
     if mode is not None:
         path.chmod(mode)
+
+
+def write_private_answer_key(root: Path, run_id: str, value: Any) -> Path:
+    """Create a new key under owned private directories, never following a leaf symlink."""
+    if not run_id or Path(run_id).name != run_id or run_id in {".", ".."}:
+        raise Refusal("invalid hidden evaluator run ID")
+    if not all(hasattr(os, flag) for flag in ("O_DIRECTORY", "O_NOFOLLOW")):
+        raise Refusal("secure hidden evaluator creation is unsupported on this host")
+
+    def private_dir(path: str | Path, parent_fd: int | None = None) -> int:
+        created = False
+        try:
+            os.mkdir(path, 0o700, dir_fd=parent_fd)
+            created = True
+        except FileExistsError:
+            pass
+        try:
+            fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent_fd)
+            if created:
+                os.fchmod(fd, 0o700)
+            info = os.fstat(fd)
+            if info.st_uid != os.geteuid() or stat.S_IMODE(info.st_mode) != 0o700:
+                raise Refusal(f"hidden evaluator directory is not owner-private: {path}")
+            return fd
+        except (OSError, Refusal) as exc:
+            if "fd" in locals():
+                os.close(fd)
+            raise Refusal(f"cannot use private hidden evaluator directory: {path}") from exc
+
+    root_fd = private_dir(root)
+    try:
+        run_fd = private_dir(run_id, root_fd)
+        try:
+            try:
+                key_fd = os.open(
+                    "ANSWER_KEY.json",
+                    os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                    0o600,
+                    dir_fd=run_fd,
+                )
+            except FileExistsError as exc:
+                raise Refusal("hidden evaluator key already exists") from exc
+            with os.fdopen(key_fd, "wb") as handle:
+                os.fchmod(handle.fileno(), 0o600)
+                handle.write(canonical_bytes(value))
+        finally:
+            os.close(run_fd)
+    finally:
+        os.close(root_fd)
+    return root / run_id / "ANSWER_KEY.json"
 
 
 def append_plane(name: str, event: str, payload: dict[str, Any]) -> None:
@@ -551,8 +602,7 @@ def seed_and_evaluate() -> dict[str, Any]:
         "cross_principal_probe": {"actor": "A", "object_owner": "B", "status": status, "response": b_location},
         "fabricated_uuid_probe": {"uuid": fabricated, "status": fake_status},
     }
-    hidden_path = HIDDEN_ROOT / RUN_ID / "ANSWER_KEY.json"
-    write_json(hidden_path, hidden, mode=0o600)
+    hidden_path = write_private_answer_key(HIDDEN_ROOT, RUN_ID, hidden)
     public = {
         "schema": "ospt.crapi-seed-public-receipt.v1",
         "status": "PASS",
@@ -562,7 +612,6 @@ def seed_and_evaluate() -> dict[str, Any]:
         "distinct_identity_fields": ["email", "token", "vin", "vehicle_uuid"],
         "cross_principal_expected_vulnerability_observed": True,
         "fabricated_uuid_rejected": True,
-        "hidden_evaluator_path": str(hidden_path),
         "hidden_evaluator_sha256": sha_file(hidden_path),
         "hidden_evaluator_mode": oct(hidden_path.stat().st_mode & 0o777),
         "answer_key_in_model_workspace": False,

@@ -53,7 +53,10 @@ class CrAPIControllerTests(unittest.TestCase):
         settings = MODULE.project_settings(Path("/private/tmp/unit-workspace"))
         sandbox = settings["sandbox"]["filesystem"]
         self.assertIn(str(MODULE.HIDDEN_EVALUATOR_ROOT), sandbox["denyRead"])
+        self.assertIn("/tmp/ospt-crapi-hidden-evaluator", sandbox["denyRead"])
+        self.assertIn("/tmp/ospt-crapi-hidden-evaluator", sandbox["denyWrite"])
         denied = settings["permissions"]["deny"]
+        self.assertIn("Read(/tmp/ospt-crapi-hidden-evaluator/**)", denied)
         self.assertIn("Bash(docker *)", denied)
         self.assertIn("Bash(*8025*)", denied)
 

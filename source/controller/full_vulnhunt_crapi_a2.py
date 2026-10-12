@@ -59,6 +59,7 @@ ATTEMPT_MARKER_PATH = OSPT_ROOT / "workbench/vulnhunter-crapi-full/VH-CRAPI-FULL
 CONTROLLER_DEPLOY_PATH = OSPT_ROOT / "build/vulnhunter-crapi-challenger-attempt-2/full_vulnhunt_crapi_a2.py"
 SCOPE_PATH = OSPT_ROOT / "build/vulnhunter-crapi-challenger-attempt-2/FULL_WORKFLOW_OWNER_SCOPE_CRAPI_A2.json"
 HIDDEN_EVALUATOR_ROOT = Path("/private/tmp/ospt-crapi-hidden-evaluator")
+HIDDEN_EVALUATOR_ALIASES = (HIDDEN_EVALUATOR_ROOT, Path("/tmp/ospt-crapi-hidden-evaluator"))
 PREPARATION_RECEIPT_NAME = "PREPARATION_CRAPI.json"
 OWNER_IDENTITY = engine.OWNER_IDENTITY
 APPROVAL_NAMESPACE = engine.APPROVAL_NAMESPACE
@@ -156,9 +157,9 @@ def project_settings(workspace: Path = LIVE_WORKSPACE_PATH) -> dict[str, Any]:
                 "WebFetch",
                 "WebSearch",
                 "Read(/path/to/local-home/**)",
-                f"Read({HIDDEN_EVALUATOR_ROOT}/**)",
+                *[f"Read({path}/**)" for path in HIDDEN_EVALUATOR_ALIASES],
                 "Edit(/path/to/local-home/**)",
-                f"Edit({HIDDEN_EVALUATOR_ROOT}/**)",
+                *[f"Edit({path}/**)" for path in HIDDEN_EVALUATOR_ALIASES],
                 f"Edit({target}/**)",
                 f"Edit({runtime_target}/**)",
                 f"Edit({skill}/**)",
@@ -177,8 +178,8 @@ def project_settings(workspace: Path = LIVE_WORKSPACE_PATH) -> dict[str, Any]:
             "failIfUnavailable": True,
             "allowUnsandboxedCommands": False,
             "filesystem": {
-                "denyRead": ["/path/to/local-home", str(HIDDEN_EVALUATOR_ROOT)],
-                "denyWrite": ["/path/to/local-home", str(HIDDEN_EVALUATOR_ROOT)],
+                "denyRead": ["/path/to/local-home", *[str(path) for path in HIDDEN_EVALUATOR_ALIASES]],
+                "denyWrite": ["/path/to/local-home", *[str(path) for path in HIDDEN_EVALUATOR_ALIASES]],
                 "allowWrite": [
                     str(runtime_target),
                     str(results),
