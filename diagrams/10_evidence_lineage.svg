@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6E7B8B"/></marker>
+    <marker id="arh" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#C84429"/></marker>
+    <style>text{fill:#151412}.h{font-size:22px;font-weight:bold}.sub{font-size:11px;fill:#565149}.lbl{font-size:12px;font-weight:bold}.tag{font-size:9px;fill:#9C9388;font-weight:bold}.sm{font-size:9.5px;fill:#565149}.big{font-size:26px;font-weight:bold;fill:#6E7B8B}</style>
+  </defs>
+  <rect width="1120" height="560" fill="#FCFAF6"/>
+  <text x="40" y="40" class="h">Evidence Traceability</text>
+  <text x="40" y="62" class="sub">Every hop is lossless and hash-linked; a workbook row walks all the way back to the raw event. Only the last step needs a human. Anchors: S9/S20/S22. Source: R03, R06, CLAIM_MAP.</text>
+
+  <!-- 5 stages, wide -->
+  <g>
+    <rect x="40" y="100" width="180" height="150" rx="8" fill="#fff" stroke="#6E7B8B" stroke-width="1.6"/>
+    <text x="130" y="132" text-anchor="middle" class="big">4,834</text>
+    <text x="130" y="154" text-anchor="middle" class="lbl">raw tool events</text>
+    <text x="130" y="176" text-anchor="middle" class="sm">the agent's complete</text><text x="130" y="190" text-anchor="middle" class="sm">transcript · verbatim</text>
+    <text x="130" y="212" text-anchor="middle" class="sm">10.5 MB · never edited</text>
+    <text x="130" y="238" text-anchor="middle" class="tag">raw-event-log.jsonl</text>
+    <line x1="220" y1="175" x2="256" y2="175" stroke="#6E7B8B" stroke-width="1.8" marker-end="url(#ar)"/>
+
+    <rect x="258" y="100" width="200" height="150" rx="8" fill="#fff" stroke="#6E7B8B" stroke-width="1.6"/>
+    <text x="358" y="130" text-anchor="middle" class="big" font-size="20">3 planes + phases</text>
+    <text x="358" y="152" text-anchor="middle" class="lbl">structured records</text>
+    <text x="358" y="174" text-anchor="middle" class="sm">controller: enforcement 6 ·</text><text x="358" y="188" text-anchor="middle" class="sm">operations 118 · evidence 3</text>
+    <text x="358" y="208" text-anchor="middle" class="sm">tool: phase1–3d outputs</text>
+    <text x="358" y="238" text-anchor="middle" class="tag">planes/*.jsonl + provider-results/</text>
+    <line x1="458" y1="175" x2="494" y2="175" stroke="#6E7B8B" stroke-width="1.8" marker-end="url(#ar)"/>
+
+    <rect x="496" y="100" width="180" height="150" rx="8" fill="#fff" stroke="#6E7B8B" stroke-width="1.6"/>
+    <text x="586" y="132" text-anchor="middle" class="big">46</text>
+    <text x="586" y="154" text-anchor="middle" class="lbl">candidate packages</text>
+    <text x="586" y="176" text-anchor="middle" class="sm">each a folder: PoC +</text><text x="586" y="190" text-anchor="middle" class="sm">exploit test + trace</text>
+    <text x="586" y="212" text-anchor="middle" class="sm">39 PASS · 7 CONDITIONAL</text>
+    <text x="586" y="238" text-anchor="middle" class="tag">poc/ · exploit_tests/</text>
+    <line x1="676" y1="175" x2="712" y2="175" stroke="#6E7B8B" stroke-width="1.8" marker-end="url(#ar)"/>
+
+    <rect x="714" y="100" width="180" height="150" rx="8" fill="#fff" stroke="#6E7B8B" stroke-width="1.6"/>
+    <text x="804" y="132" text-anchor="middle" class="big">1</text>
+    <text x="804" y="154" text-anchor="middle" class="lbl">workbook</text>
+    <text x="804" y="176" text-anchor="middle" class="sm">46 rows · cwe · severity ·</text><text x="804" y="190" text-anchor="middle" class="sm">poc_ref · test_ref · state</text>
+    <text x="804" y="212" text-anchor="middle" class="sm">a reviewer sorts &amp; filters</text>
+    <text x="804" y="238" text-anchor="middle" class="tag">crAPI_A2_CANDIDATES.xlsx</text>
+    <line x1="894" y1="175" x2="930" y2="175" stroke="#C84429" stroke-width="2" marker-end="url(#arh)"/>
+
+    <rect x="932" y="100" width="150" height="150" rx="8" fill="#C84429"/>
+    <text x="1007" y="146" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">REVIEW line</text>
+    <text x="1007" y="170" text-anchor="middle" class="sm" fill="#fff">a named human</text><text x="1007" y="184" text-anchor="middle" class="sm" fill="#fff">decides</text>
+    <text x="1007" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">PENDING</text>
+    <text x="1007" y="230" text-anchor="middle" class="sm" fill="#fff">0 of 46 crossed</text>
+  </g>
+
+  <!-- backtrace bar -->
+  <rect x="40" y="280" width="1042" height="70" rx="8" fill="#EDEFF1" stroke="#6E7B8B" stroke-width="1.4"/>
+  <text x="60" y="304" class="lbl" fill="#6E7B8B">Walk it backward — every row is falsifiable</text>
+  <text x="60" y="326" class="sm">A workbook row cites its package → the package's test re-runs against the target → the plane line carries the same run_id + scope_sha256 → that hash is the raw event log's hash.</text>
+  <text x="60" y="342" class="sm">Nothing is summarized away between the machine and the reviewer. The reviewer checks the tool's claim; they don't inherit it.</text>
+
+  <!-- how a human crosses -->
+  <rect x="40" y="364" width="1042" height="176" rx="8" fill="#FBEEEA" stroke="#C84429" stroke-width="1.4"/>
+  <text x="60" y="388" class="lbl" fill="#C84429">Crossing the line — the review workbench (in the bundle, run by a human, still doesn't auto-activate)</text>
+  <g>
+    <rect x="60" y="402" width="320" height="120" rx="6" fill="#fff" stroke="#C84429"/>
+    <text x="76" y="424" class="sm" font-weight="bold">prepare_review.py</text>
+    <text x="76" y="444" class="sm">compiles the review packet from the</text>
+    <text x="76" y="460" class="sm">candidates + evidence for one human</text>
+    <text x="76" y="476" class="sm">to read — read-only, changes nothing.</text>
+    <text x="76" y="500" class="tag">source-bundle/review-workbench/</text>
+    <line x1="380" y1="462" x2="416" y2="462" stroke="#C84429" stroke-width="1.8" marker-end="url(#arh)"/>
+    <rect x="418" y="402" width="320" height="120" rx="6" fill="#fff" stroke="#C84429"/>
+    <text x="434" y="424" class="sm" font-weight="bold">finalize_review.py</text>
+    <text x="434" y="444" class="sm">binds a NAMED human's per-candidate</text>
+    <text x="434" y="460" class="sm">decisions + review minutes into a</text>
+    <text x="434" y="476" class="sm">create-once receipt.</text>
+    <text x="434" y="500" class="tag">human-review-receipt.json</text>
+    <line x1="738" y1="462" x2="774" y2="462" stroke="#C84429" stroke-width="1.8" marker-end="url(#arh)"/>
+    <rect x="776" y="402" width="290" height="120" rx="6" fill="#F4EEE2"/>
+    <text x="792" y="424" class="sm" font-weight="bold">Even then: activation stays unauthorized</text>
+    <text x="792" y="444" class="sm">the receipt records a human's judgment;</text>
+    <text x="792" y="460" class="sm">acting on it (a ticket, a block, a</text>
+    <text x="792" y="476" class="sm">remediation) is a further, separate</text>
+    <text x="792" y="492" class="sm">owner decision — outside this package.</text>
+    <text x="792" y="512" class="tag">this fork is open, by design</text>
+  </g>
+</svg>

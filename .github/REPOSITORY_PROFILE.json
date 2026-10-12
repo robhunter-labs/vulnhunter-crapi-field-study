@@ -1,0 +1,44 @@
+{
+  "schema": "kingdom.repository-profile.v1",
+  "repository": {
+    "name": "robhunter-labs/vulnhunter-crapi-field-study",
+    "expected_remote": "https://github.com/robhunter-labs/vulnhunter-crapi-field-study.git",
+    "default_branch": "main"
+  },
+  "purpose": "Public independent field-study companion with original experiment control source, architecture, methodology, and provider-free review tests. No upstream product source or raw run corpus.",
+  "owner_node": "RobHunterLabs",
+  "steward": "RobHunterLabs",
+  "visibility": "public",
+  "audience": ["PUBLIC"],
+  "lifecycle": "RELEASE",
+  "collaboration_mode": "public",
+  "publication_authority": "Operator Actual",
+  "content_policy": {
+    "allowed_prefixes": [".github/", "source/", "diagrams/"],
+    "allowed_root_files": [".gitignore", "LICENSE", "README.md", "SECURITY.md", "STUDY.md"],
+    "prohibited_globs": ["**/.DS_Store", "**/*RECEIPT*", "**/evidence/**", "**/raw-intake/**", "**/runtime/**", "_workbench/**", "_design/**"],
+    "prohibited_components": [".git", ".venv", "__pycache__", "_capsule", "_inbox", "DunvaricKingdom", "Foundry", "ValenceLattice", "node_modules"],
+    "prohibited_suffixes": [".env", ".key", ".p12", ".pem", ".tfstate", ".sig"],
+    "local_only_markers": ["backup: local-only", "corpus: employer-restricted", "sensitivity: restricted", "source_state: WITHHELD", "source_state: OWNER_PRIVATE"],
+    "max_file_bytes": 1048576,
+    "binary_policy": "deny",
+    "explicit_staging_required": true
+  },
+  "security_policy": {
+    "default_branch_pr": "owner-direct",
+    "codeowners": "required",
+    "signed_commits": "required",
+    "secret_scanning": "unwitnessed",
+    "push_protection": "unwitnessed",
+    "actions_sha_pinning": "not_applicable",
+    "default_token_permissions": "none"
+  },
+  "automation_policy": {
+    "mode": "manual",
+    "cloud_deployment": "none",
+    "unattended_push": "disabled"
+  },
+  "retention_and_rollback": "Signed Git history and reviewed revert. Raw run logs, signatures, candidate corpus, generated credentials, and private control-plane records remain outside this repository.",
+  "incident_contact": "Repository owner through GitHub",
+  "exceptions": []
+}

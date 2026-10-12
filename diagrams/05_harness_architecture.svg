@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 620" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#C84429"/></marker>
+    <style>text{fill:#151412}.h{font-size:22px;font-weight:bold}.sub{font-size:11px;fill:#565149}.lbl{font-size:12.5px;font-weight:bold}.tag{font-size:9px;fill:#9C9388;font-weight:bold}.sm{font-size:10px;fill:#565149}.mono{font-family:monospace;font-size:10px}</style>
+  </defs>
+  <rect width="1120" height="620" fill="#FCFAF6"/>
+  <text x="40" y="40" class="h">crAPI Experiment Harness</text>
+  <text x="40" y="60" class="sub">Built for this run. Separate from VulnHunter's native benchmark harness.</text>
+  <text x="40" y="75" class="sub">Tested only with VulnHunter and local crAPI. Anchors: S7/S16. Source: source-bundle/.</text>
+
+  <!-- engine block -->
+  <rect x="40" y="88" width="540" height="400" rx="10" fill="#FBEEEA" stroke="#C84429" stroke-width="2"/>
+  <text x="60" y="116" class="lbl" fill="#C84429">engine · full_vulnhunt_a4.py — 3,033 lines, tool-agnostic</text>
+  <text x="60" y="134" class="sm">the reusable machinery · <tspan font-weight="bold">zero edits</tspan> during the crAPI run (sha-pinned)</text>
+  <g>
+    <rect x="60" y="146" width="245" height="74" rx="6" fill="#fff" stroke="#C84429"/><text x="72" y="166" class="sm" font-weight="bold">Integrity primitives</text><text x="72" y="184" class="sm">canonical_bytes · sha_file · write_create_once</text><text x="72" y="200" class="sm">directory_manifest · verify_pinned_members</text><text x="72" y="214" class="sm">append_jsonl (planes)</text>
+    <rect x="315" y="146" width="245" height="74" rx="6" fill="#fff" stroke="#C84429"/><text x="327" y="166" class="sm" font-weight="bold">Signed scope</text><text x="327" y="184" class="sm">build_scope · verify_scope</text><text x="327" y="200" class="sm">pinned_allowed_signers_fd</text><text x="327" y="214" class="sm">reconstruct_replay_binding</text>
+    <rect x="60" y="228" width="245" height="74" rx="6" fill="#fff" stroke="#C84429"/><text x="72" y="248" class="sm" font-weight="bold">Spawn + monitor</text><text x="72" y="266" class="sm">spawn_verified_executable</text><text x="72" y="282" class="sm">_darwin_spawn_suspended · code_identity</text><text x="72" y="296" class="sm">monitor_provider (4 stop conditions)</text>
+    <rect x="315" y="228" width="245" height="74" rx="6" fill="#fff" stroke="#C84429"/><text x="327" y="248" class="sm" font-weight="bold">Target lifecycle</text><text x="327" y="266" class="sm">start/stop/recover_target_service</text><text x="327" y="282" class="sm">target_health · capture_runtime_sidecars</text><text x="327" y="296" class="sm">export_source · verify_export</text>
+    <rect x="60" y="310" width="500" height="70" rx="6" fill="#fff" stroke="#C84429"/><text x="72" y="330" class="sm" font-weight="bold">Workspace prep + validation</text><text x="72" y="348" class="sm">prepare_workspace · inspect_prepared_workspace · install_skill · claude_argv · claude_runtime</text><text x="72" y="364" class="sm">collect_tool_records · validate_init_events · phase_finding_denominator · progress_state</text>
+  </g>
+  <text x="60" y="400" class="sm" font-style="italic">The engine knows how to authorize, launch, watch, and record.</text>
+  <text x="60" y="414" class="sm" font-style="italic">Reuse beyond VulnHunter and crAPI has not been tested.</text>
+  <rect x="60" y="424" width="500" height="50" rx="6" fill="#F4EEE2"/>
+  <text x="72" y="444" class="sm" font-weight="bold">revalidate_crapi_a2.py — evidence reconciliation</text>
+  <text x="72" y="460" class="sm">Verifies source hashes before writing a reconciled validation record.</text>
+
+  <!-- seam arrow -->
+  <line x1="580" y1="288" x2="620" y2="288" stroke="#C84429" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="600" y="278" text-anchor="middle" class="tag">calls</text>
+
+  <!-- adapter block -->
+  <rect x="620" y="88" width="460" height="400" rx="10" fill="#fff" stroke="#C84429" stroke-width="1.6"/>
+  <text x="640" y="116" class="lbl" fill="#C84429">crAPI adapter · full_vulnhunt_crapi_a2.py — 735 lines</text>
+  <text x="640" y="134" class="sm">overrides ONLY the target-specific pieces · 107 calls into engine · 0 engine edits</text>
+  <g>
+    <rect x="640" y="146" width="420" height="30" rx="5" fill="#FBEEEA"/><text x="652" y="166" class="sm"><tspan font-weight="bold">CrAPIService · start_web_only_tunnel</tspan> — the crAPI container + 127.0.0.1:8888</text>
+    <rect x="640" y="180" width="420" height="30" rx="5" fill="#FBEEEA"/><text x="652" y="200" class="sm"><tspan font-weight="bold">build_scope / verify_scope</tspan> — crAPI target, commit, evaluator, budgets</text>
+    <rect x="640" y="214" width="420" height="30" rx="5" fill="#FBEEEA"/><text x="652" y="234" class="sm"><tspan font-weight="bold">prepare_workspace / inspect_prepared_workspace</tspan> — crAPI export + settings</text>
+    <rect x="640" y="248" width="420" height="30" rx="5" fill="#FBEEEA"/><text x="652" y="268" class="sm"><tspan font-weight="bold">configure_qualifier · qualification_bindings</tspan> — the 10 cage receipts</text>
+    <rect x="640" y="282" width="420" height="30" rx="5" fill="#FBEEEA"/><text x="652" y="302" class="sm"><tspan font-weight="bold">target_health · target_service_argv</tspan> — crAPI health endpoint + compose</text>
+    <rect x="640" y="316" width="420" height="30" rx="5" fill="#FBEEEA"/><text x="652" y="336" class="sm"><tspan font-weight="bold">install_engine_contract</tspan> — asserts engine sha == signed scope (blocks edits)</text>
+  </g>
+  <text x="640" y="372" class="sm" font-weight="bold">What the adapter does NOT touch</text>
+  <text x="640" y="390" class="sm">signature check · one-attempt marker · verified launch · monitoring</text>
+  <text x="640" y="406" class="sm">separate run records · raw-stream preservation</text>
+  <rect x="640" y="420" width="420" height="52" rx="6" fill="#EEF3F3" stroke="#2F6D74" stroke-width="1.2"/>
+  <text x="652" y="440" class="sm" font-weight="bold" fill="#2F6D74">What this structure shows</text>
+  <text x="652" y="458" class="sm">crAPI code stayed in the adapter. Broader reuse remains unproved.</text>
+</svg>
