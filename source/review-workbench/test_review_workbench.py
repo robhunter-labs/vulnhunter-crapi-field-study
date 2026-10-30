@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
+import unittest
 from pathlib import Path
 
 
@@ -389,25 +390,22 @@ def test_synthetic_first_use_cannot_be_finalized_as_a_real_review() -> None:
             raise AssertionError("repeat demo replaced earlier output")
 
 
+def collect_tests():
+    """Every test_* function in definition order, so a new test can't be silently skipped."""
+    return [fn for name, fn in globals().items() if name.startswith("test_") and callable(fn)]
+
+
+class ReviewWorkbenchTests(unittest.TestCase):
+    """Lets `python3 -m unittest discover` run the same functions."""
+
+    def test_all(self):
+        for test in collect_tests():
+            with self.subTest(test.__name__):
+                test()
+
+
 def main() -> None:
-    tests = [
-        test_prepare_binds_candidate_and_artifacts,
-        test_extract_prefers_richer_row_with_escaped_table_pipe,
-        test_prepare_refuses_unproved_consumer,
-        test_prepare_direct_pass_requires_exact_evidence_bindings,
-        test_prepare_direct_pass_refuses_synthetic_or_defect_bearing_record,
-        test_prepare_refuses_results_changed_after_validation_chain,
-        test_prepare_accepts_additive_reconciliation_without_rewriting_failure,
-        test_prepare_refuses_wrong_original_or_results_binding,
-        test_prepare_exact_subset_and_missing_id_refusal,
-        test_prepare_refuses_result_symlink,
-        test_create_once_refuses_overwrite,
-        test_finalize_refuses_fake_reviewer_and_digest_drift,
-        test_confirmed_requires_three_human_checks,
-        test_finalize_complete_review_keeps_authority_bounded,
-        test_finalize_refuses_missing_review_duration,
-        test_synthetic_first_use_cannot_be_finalized_as_a_real_review,
-    ]
+    tests = collect_tests()
     for test in tests:
         test()
         print(f"PASS {test.__name__}")

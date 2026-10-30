@@ -60,6 +60,8 @@ def finalize(packet_path: Path, decisions_path: Path, transaction_time: str | No
         raise common.Refusal("review_duration_minutes must be a positive number")
 
     candidate_ids = [item.get("candidate_id") for item in packet.get("candidates", [])]
+    if not candidate_ids:
+        raise common.Refusal("packet has no candidates to review")
     if len(candidate_ids) != len(set(candidate_ids)):
         raise common.Refusal("packet candidate IDs are not unique")
     decision_items = decisions.get("decisions")
