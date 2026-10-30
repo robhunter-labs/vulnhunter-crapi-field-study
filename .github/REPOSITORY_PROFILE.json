@@ -1,0 +1,87 @@
+{
+  "schema": "kingdom.repository-profile.v1",
+  "repository": {
+    "name": "robhunter-labs/vulnhunter-crapi-field-study",
+    "expected_remote": "https://github.com/robhunter-labs/vulnhunter-crapi-field-study.git",
+    "default_branch": "main"
+  },
+  "purpose": "Public independent field-study companion with original experiment control source, architecture, methodology, and provider-free review tests. No upstream product source or raw run corpus.",
+  "owner_node": "RobHunterLabs",
+  "steward": "RobHunterLabs",
+  "visibility": "public",
+  "audience": [
+    "PUBLIC"
+  ],
+  "lifecycle": "RELEASE",
+  "collaboration_mode": "public",
+  "publication_authority": "Operator Actual",
+  "content_policy": {
+    "allowed_prefixes": [
+      ".github/",
+      "source/",
+      "diagrams/"
+    ],
+    "allowed_root_files": [
+      ".gitignore",
+      "LICENSE",
+      "README.md",
+      "SECURITY.md",
+      "STUDY.md"
+    ],
+    "prohibited_globs": [
+      "**/.DS_Store",
+      "**/*RECEIPT*",
+      "**/evidence/**",
+      "**/raw-intake/**",
+      "**/runtime/**",
+      "_workbench/**",
+      "_design/**"
+    ],
+    "prohibited_components": [
+      ".git",
+      ".venv",
+      "__pycache__",
+      "_capsule",
+      "_inbox",
+      "sha256:34d1958cea974c678fb62692142393df4251b0db245ba0c564642a1dc5d0371a",
+      "sha256:dfb316701857783dac69a14d1fe3fd60cff21d56e830baf7f0e3871bd73eee39",
+      "sha256:e044573e58c62b01ad7775cae98f841b2e71911c61f0e11a9cfa860de371bf1c",
+      "node_modules"
+    ],
+    "prohibited_suffixes": [
+      ".env",
+      ".key",
+      ".p12",
+      ".pem",
+      ".tfstate",
+      ".sig"
+    ],
+    "local_only_markers": [
+      "backup: local-only",
+      "sha256:27:796f414681374f257013c8ed4f51233e7492d7ca359aa9475f916d0e5c81ce48",
+      "sensitivity: restricted",
+      "source_state: WITHHELD",
+      "source_state: OWNER_PRIVATE"
+    ],
+    "max_file_bytes": 1048576,
+    "binary_policy": "deny",
+    "explicit_staging_required": true
+  },
+  "security_policy": {
+    "default_branch_pr": "owner-direct",
+    "codeowners": "required",
+    "signed_commits": "required",
+    "secret_scanning": "unwitnessed",
+    "push_protection": "unwitnessed",
+    "actions_sha_pinning": "not_applicable",
+    "default_token_permissions": "none"
+  },
+  "automation_policy": {
+    "mode": "manual",
+    "cloud_deployment": "none",
+    "unattended_push": "disabled"
+  },
+  "retention_and_rollback": "Signed Git history and reviewed revert. Raw run logs, signatures, candidate corpus, generated credentials, and private control-plane records remain outside this repository.",
+  "incident_contact": "Repository owner through GitHub",
+  "exceptions": []
+}
