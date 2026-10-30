@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="Arial, Helvetica, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="Arial, Helvetica, sans-serif" role="img" aria-labelledby="title-10_evidence_lineage desc-10_evidence_lineage">
+  <title id="title-10_evidence_lineage">Evidence traceability</title>
+  <desc id="desc-10_evidence_lineage">Each hop from raw tool events to structured records, to 46 candidate packages (39 pass, 7 conditional), to a review workbook, is hash-linked so a workbook row can be walked back to the raw event. The final step, a named human review decision, is pending: none of the 46 candidates crossed it.</desc>
   <defs>
     <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6E7B8B"/></marker>
     <marker id="arh" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#C84429"/></marker>

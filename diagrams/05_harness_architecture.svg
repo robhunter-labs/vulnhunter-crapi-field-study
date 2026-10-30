@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 620" font-family="Arial, Helvetica, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 620" font-family="Arial, Helvetica, sans-serif" role="img" aria-labelledby="title-05_harness_architecture desc-05_harness_architecture">
+  <title id="title-05_harness_architecture">crAPI experiment harness</title>
+  <desc id="desc-05_harness_architecture">The harness built for this run, separate from VulnHunter's own benchmark harness: integrity primitives, signed scope, process spawn and monitoring, target lifecycle, and workspace preparation and validation. Tested only with VulnHunter and a local crAPI instance.</desc>
   <defs>
     <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#C84429"/></marker>
     <style>text{fill:#151412}.h{font-size:22px;font-weight:bold}.sub{font-size:11px;fill:#565149}.lbl{font-size:12.5px;font-weight:bold}.tag{font-size:9px;fill:#9C9388;font-weight:bold}.sm{font-size:10px;fill:#565149}.mono{font-family:monospace;font-size:10px}</style>

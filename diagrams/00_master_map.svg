@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" font-family="Arial, Helvetica, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" font-family="Arial, Helvetica, sans-serif" role="img" aria-labelledby="title-00_master_map desc-00_master_map">
+  <title id="title-00_master_map">VulnHunter and crAPI experiment architecture</title>
+  <desc id="desc-00_master_map">Map of the study: the VulnHunter tool's phases (recon, parallel hunt agents, falsification, reproduce, sweep, report) beside the separate experiment harness built for this run, with each step marked as observed in this run or documented but not run, and the evidence each step produced.</desc>
   <defs>
     <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#565149"/></marker>
     <marker id="arT" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2F6D74"/></marker>

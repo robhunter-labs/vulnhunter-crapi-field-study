@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 580" font-family="Arial, Helvetica, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 580" font-family="Arial, Helvetica, sans-serif" role="img" aria-labelledby="title-11_trust_authority desc-11_trust_authority">
+  <title id="title-11_trust_authority">Roles, permissions and decision authority</title>
+  <desc id="desc-11_trust_authority">Who could do what in the run: the builder could write the engine and tests but not run or sign anything; a human signature authorized one run; the runner executed the hunt inside limits it could not see or change; the controller enforced the scope; and only a human reviewer could label a candidate a finding.</desc>
   <defs>
     <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#565149"/></marker>
     <style>text{fill:#151412}.h{font-size:22px;font-weight:bold}.sub{font-size:11px;fill:#565149}.lbl{font-size:12.5px;font-weight:bold}.tag{font-size:9px;fill:#9C9388;font-weight:bold}.sm{font-size:10px;fill:#565149}.can{font-size:9.5px;fill:#2F6D74}.cant{font-size:9.5px;fill:#C84429}</style>
