@@ -14,7 +14,7 @@
   ],
   "lifecycle": "RELEASE",
   "collaboration_mode": "public",
-  "publication_authority": "Operator Actual",
+  "publication_authority": "Repository owner",
   "content_policy": {
     "allowed_prefixes": [
       ".github/",
@@ -43,9 +43,6 @@
       "__pycache__",
       "_capsule",
       "_inbox",
-      "sha256:34d1958cea974c678fb62692142393df4251b0db245ba0c564642a1dc5d0371a",
-      "sha256:dfb316701857783dac69a14d1fe3fd60cff21d56e830baf7f0e3871bd73eee39",
-      "sha256:e044573e58c62b01ad7775cae98f841b2e71911c61f0e11a9cfa860de371bf1c",
       "node_modules"
     ],
     "prohibited_suffixes": [
@@ -58,14 +55,14 @@
     ],
     "local_only_markers": [
       "backup: local-only",
-      "sha256:27:796f414681374f257013c8ed4f51233e7492d7ca359aa9475f916d0e5c81ce48",
       "sensitivity: restricted",
       "source_state: WITHHELD",
       "source_state: OWNER_PRIVATE"
     ],
     "max_file_bytes": 1048576,
     "binary_policy": "deny",
-    "explicit_staging_required": true
+    "explicit_staging_required": true,
+    "private_terms": "Sensitive terms are never stored in this repository, hashed or plain. Leak checks read their term list from outside the tree."
   },
   "security_policy": {
     "default_branch_pr": "owner-direct",
