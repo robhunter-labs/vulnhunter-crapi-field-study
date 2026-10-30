@@ -7,9 +7,16 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import crapi_runtime_qualifier as qualifier  # noqa: E402
+
+
+def check(value: bool, message: str = "check failed") -> None:
+    """Explicit check: unlike `assert`, it still runs under `python -O`."""
+    if not value:
+        raise AssertionError(message)
 
 
 def refused(action) -> None:
@@ -24,12 +31,12 @@ def test_new_key_is_private_and_not_overwritten() -> None:
     with tempfile.TemporaryDirectory() as name:
         root = Path(name) / "hidden"
         path = qualifier.write_private_answer_key(root, "RUN-1", {"password": "synthetic"})
-        assert path.read_bytes() == qualifier.canonical_bytes({"password": "synthetic"})
-        assert path.stat().st_mode & 0o777 == 0o600
-        assert root.stat().st_mode & 0o777 == 0o700
-        assert path.parent.stat().st_mode & 0o777 == 0o700
+        check(path.read_bytes() == qualifier.canonical_bytes({"password": "synthetic"}))
+        check(path.stat().st_mode & 0o777 == 0o600)
+        check(root.stat().st_mode & 0o777 == 0o700)
+        check(path.parent.stat().st_mode & 0o777 == 0o700)
         refused(lambda: qualifier.write_private_answer_key(root, "RUN-1", {"password": "new"}))
-        assert path.read_bytes() == qualifier.canonical_bytes({"password": "synthetic"})
+        check(path.read_bytes() == qualifier.canonical_bytes({"password": "synthetic"}))
 
 
 def test_symlinks_and_untrusted_directory_are_refused() -> None:
@@ -54,11 +61,11 @@ def test_symlinks_and_untrusted_directory_are_refused() -> None:
         target.write_text("keep", encoding="utf-8")
         (run / "ANSWER_KEY.json").symlink_to(target)
         refused(lambda: qualifier.write_private_answer_key(root, "RUN-1", {"key": "secret"}))
-        assert target.read_text(encoding="utf-8") == "keep"
+        check(target.read_text(encoding="utf-8") == "keep")
 
         os.chmod(root, 0o755)
         refused(lambda: qualifier.write_private_answer_key(root, "RUN-2", {"key": "secret"}))
-        assert not (root / "RUN-2").exists()
+        check(not (root / "RUN-2").exists())
 
 
 def test_run_id_cannot_escape_private_root() -> None:
@@ -66,11 +73,24 @@ def test_run_id_cannot_escape_private_root() -> None:
         root = Path(name) / "hidden"
         for run_id in ("", ".", "..", "../outside", "nested/run"):
             refused(lambda: qualifier.write_private_answer_key(root, run_id, {"key": "secret"}))
-        assert not root.exists()
+        check(not root.exists())
+
+
+def collect_tests():
+    return [fn for name, fn in globals().items() if name.startswith("test_") and callable(fn)]
+
+
+class PrivateAnswerKeyTests(unittest.TestCase):
+    """Lets `python3 -m unittest discover` run the same functions."""
+
+    def test_all(self):
+        for test in collect_tests():
+            with self.subTest(test.__name__):
+                test()
 
 
 if __name__ == "__main__":
-    test_new_key_is_private_and_not_overwritten()
-    test_symlinks_and_untrusted_directory_are_refused()
-    test_run_id_cannot_escape_private_root()
-    print("PASS 3/3 private answer-key tests")
+    tests = collect_tests()
+    for test in tests:
+        test()
+    print(f"PASS {len(tests)}/{len(tests)} private answer-key tests")
