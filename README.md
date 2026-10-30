@@ -8,6 +8,8 @@ The subject was [Capital One’s VulnHunter](https://github.com/capitalone/vulnh
 
 ## Start here
 
+The agent runtime was Claude Code, with the root model pinned in the engine (`claude-opus-5`; see `source/engine/full_vulnhunt_a4.py`).
+
 The controlled, source-led run retained **46 candidate packages**. Generated tests observed the predicted behavior for **39** packages; **7** remained conditional. **Human review was not completed, so none of the candidates was promoted to an accepted finding.** The 39 tests are not 39 distinct vulnerabilities, and the pending review cannot be read as 46 rejected findings or a false-positive rate. The run was not blind; public crAPI solution material remained available. VulnHunter Fix and separate Verify were not run.
 
 The diagrams show the operating model: [master map](diagrams/00_master_map.svg), [harness architecture](diagrams/05_harness_architecture.svg), [evidence lineage](diagrams/10_evidence_lineage.svg), and [authority boundary](diagrams/11_trust_authority.svg). Read [STUDY.md](STUDY.md) for the protocol, export-to-enterprise gap, and limits.
@@ -27,11 +29,11 @@ The study code is **not a turn-key scanner or a portable crAPI harness**. It is 
 
 The original private runtime logs, credentials/tokens generated in the lab, signed scope, raw model transcripts, and complete candidate corpus are intentionally not in this repository. Their omission prevents a byte-for-byte re-run of the historical experiment. No live secret or personal home-directory path is intended to be published; generated local receipts can still contain a caller's absolute input paths and must be reviewed before sharing.
 
-The review-workbench code is independently testable with Python’s standard library:
+The review-workbench and qualification tests run with Python 3.9 or newer, standard library only:
 
 ```sh
-cd source/review-workbench
-python3 test_review_workbench.py
+cd source/review-workbench && python3 test_review_workbench.py     # or: python3 -m unittest discover
+cd ../qualification && python3 test_private_answer_key.py
 ```
 
 That command runs provider-free fixtures; it does not validate a new VulnHunter run. For a safe, runnable introduction to the review packet and its human-decision boundary, follow [the synthetic first-use exercise](source/review-workbench/FIRST_USE.md). `prepare_review.py` needs a completed results directory, a matching native validation record, and a raw event log. Its direct-PASS path now refuses missing or mismatched path/digest bindings, synthetic or defect-bearing records, and result changes observed while building the packet. These checks bind evidence but do **not** authenticate who produced the validation record; `DIRECT_NATIVE_PASS` is not independent proof against a malicious producer. The qualifier now creates the hidden key exclusively in owner-private directories, and the model settings deny both `/private/tmp` and `/tmp` spellings. Those settings have not been tested inside the actual provider sandbox. The model and controller share an OS account, so local file mode alone is not a confidentiality boundary. Do not use this historical fixed-path evaluator for real credentials or on a shared host. These are limitations, not features of a reusable tool.
