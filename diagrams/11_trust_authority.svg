@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 580" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#565149"/></marker>
+    <style>text{fill:#151412}.h{font-size:22px;font-weight:bold}.sub{font-size:11px;fill:#565149}.lbl{font-size:12.5px;font-weight:bold}.tag{font-size:9px;fill:#9C9388;font-weight:bold}.sm{font-size:10px;fill:#565149}.can{font-size:9.5px;fill:#2F6D74}.cant{font-size:9.5px;fill:#C84429}</style>
+  </defs>
+  <rect width="1120" height="580" fill="#FCFAF6"/>
+  <text x="40" y="40" class="h">Roles, Permissions, and Decision Authority</text>
+  <text x="40" y="62" class="sub">Builder, signer, runner, controller, and reviewer had different powers. Anchors: S4/S9/S16/S20.</text>
+
+  <!-- 5 actors as columns -->
+  <g>
+    <!-- build agent -->
+    <rect x="40" y="90" width="200" height="360" rx="10" fill="#FBEEEA" stroke="#C84429" stroke-width="1.6"/>
+    <text x="140" y="116" text-anchor="middle" class="lbl" fill="#C84429">builder</text>
+    <text x="140" y="134" text-anchor="middle" class="sm">Cowork / BuildWorks</text>
+    <line x1="56" y1="146" x2="224" y2="146" stroke="#C84429" stroke-width="0.75"/>
+    <text x="56" y="168" class="can">CAN</text>
+    <text x="56" y="186" class="sm">author engine + adapter</text>
+    <text x="56" y="202" class="sm">write scope builder</text>
+    <text x="56" y="218" class="sm">write tests, cage receipts</text>
+    <text x="56" y="240" class="cant">CANNOT</text>
+    <text x="56" y="258" class="sm">run anything</text>
+    <text x="56" y="274" class="sm">sign a scope</text>
+    <text x="56" y="290" class="sm">edit the engine (sha-pinned)</text>
+    <rect x="56" y="366" width="168" height="70" rx="6" fill="#fff"/>
+    <text x="140" y="388" text-anchor="middle" class="sm" font-weight="bold">stopped here</text>
+    <text x="140" y="406" text-anchor="middle" class="sm">until a scope was signed —</text>
+    <text x="140" y="422" text-anchor="middle" class="sm">authoring ≠ executing</text>
+    <line x1="240" y1="270" x2="272" y2="270" stroke="#565149" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <!-- human signature -->
+    <rect x="274" y="90" width="180" height="360" rx="10" fill="#fff" stroke="#565149" stroke-width="1.6"/>
+    <text x="364" y="116" text-anchor="middle" class="lbl">RH — the signature</text>
+    <text x="364" y="134" text-anchor="middle" class="sm">the human gate</text>
+    <line x1="290" y1="146" x2="438" y2="146" stroke="#565149" stroke-width="0.75"/>
+    <text x="290" y="168" class="can">CAN</text>
+    <text x="290" y="186" class="sm">read the built scope</text>
+    <text x="290" y="202" class="sm">sign it (ssh-keygen)</text>
+    <text x="290" y="218" class="sm">— authorize one run</text>
+    <text x="290" y="240" class="cant">CANNOT (by choice)</text>
+    <text x="290" y="258" class="sm">widen a signed scope</text>
+    <text x="290" y="274" class="sm">— reconstruction refuses</text>
+    <rect x="290" y="366" width="148" height="70" rx="6" fill="#F4EEE2"/>
+    <text x="364" y="388" text-anchor="middle" class="sm" font-weight="bold">the only bridge</text>
+    <text x="364" y="406" text-anchor="middle" class="sm">between authoring</text>
+    <text x="364" y="422" text-anchor="middle" class="sm">and executing</text>
+    <line x1="454" y1="270" x2="486" y2="270" stroke="#565149" stroke-width="1.6" marker-end="url(#ar)"/>
+
+    <!-- run agent -->
+    <rect x="488" y="90" width="200" height="360" rx="10" fill="#EAF1F1" stroke="#2F6D74" stroke-width="1.6"/>
+    <text x="588" y="116" text-anchor="middle" class="lbl" fill="#2F6D74">runner</text>
+    <text x="588" y="134" text-anchor="middle" class="sm">Claude Code · /vulnhunt</text>
+    <line x1="504" y1="146" x2="672" y2="146" stroke="#2F6D74" stroke-width="0.75"/>
+    <text x="504" y="168" class="can">CAN</text>
+    <text x="504" y="186" class="sm">read the target source</text>
+    <text x="504" y="202" class="sm">run the Hunt workflow</text>
+    <text x="504" y="218" class="sm">write PoCs, tests, reports</text>
+    <text x="504" y="240" class="cant">CANNOT</text>
+    <text x="504" y="258" class="sm">see the scope or its key</text>
+    <text x="504" y="274" class="sm">edit target · reach off-loopback</text>
+    <text x="504" y="290" class="sm">label a candidate a finding</text>
+    <rect x="504" y="366" width="168" height="70" rx="6" fill="#fff"/>
+    <text x="588" y="388" text-anchor="middle" class="sm" font-weight="bold">ran under limits</text>
+    <text x="588" y="406" text-anchor="middle" class="sm">it never saw — sandbox +</text>
+    <text x="588" y="422" text-anchor="middle" class="sm">4 monitor conditions</text>
+
+    <!-- controller (below, spanning) -->
+    <rect x="702" y="90" width="180" height="200" rx="10" fill="#FBEEEA" stroke="#C84429" stroke-width="1.6"/>
+    <text x="792" y="116" text-anchor="middle" class="lbl" fill="#C84429">controller</text>
+    <text x="792" y="134" text-anchor="middle" class="sm">crAPI experiment harness</text>
+    <line x1="718" y1="146" x2="866" y2="146" stroke="#C84429" stroke-width="0.75"/>
+    <text x="718" y="168" class="can">CAN</text>
+    <text x="718" y="186" class="sm">verify · spawn · watch</text>
+    <text x="718" y="202" class="sm">record all planes</text>
+    <text x="718" y="218" class="sm">preserve raw stream</text>
+    <text x="718" y="240" class="cant">CANNOT</text>
+    <text x="718" y="258" class="sm">analyze code</text>
+    <text x="718" y="274" class="sm">promote a candidate</text>
+
+    <!-- human reviewer -->
+    <rect x="702" y="306" width="180" height="144" rx="10" fill="#fff" stroke="#565149" stroke-width="1.6"/>
+    <text x="792" y="330" text-anchor="middle" class="lbl">human reviewer</text>
+    <text x="792" y="348" text-anchor="middle" class="sm">a named person</text>
+    <line x1="718" y1="358" x2="866" y2="358" stroke="#565149" stroke-width="0.75"/>
+    <text x="718" y="378" class="can">CAN</text>
+    <text x="718" y="394" class="sm">read each candidate</text>
+    <text x="718" y="408" class="sm">record a disposition</text>
+    <text x="718" y="424" class="sm">— the only one who</text>
+    <text x="718" y="438" class="sm">crosses the REVIEW line</text>
+  </g>
+
+  <!-- the REVIEW line -->
+  <rect x="900" y="90" width="182" height="360" rx="10" fill="#C84429"/>
+  <text x="991" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#fff" transform="rotate(0 991 250)">THE REVIEW</text>
+  <text x="991" y="272" text-anchor="middle" font-size="16" font-weight="bold" fill="#fff">LINE</text>
+  <text x="991" y="304" text-anchor="middle" class="sm" fill="#fff">no agent crosses it</text>
+  <text x="991" y="322" text-anchor="middle" class="sm" fill="#fff">only a named human</text>
+  <text x="991" y="340" text-anchor="middle" class="sm" fill="#fff">— and none has yet</text>
+  <text x="991" y="372" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">0 / 46</text>
+  <text x="991" y="392" text-anchor="middle" class="sm" fill="#fff">activated</text>
+
+  <text x="40" y="470" class="sm"><tspan font-weight="bold">The useful property:</tspan> no role could grant itself another role's authority. The builder could not run; the runner could not authorize;</text>
+  <text x="40" y="486" class="sm">the controller could not judge; only a named human could accept a candidate—and no one has done so.</text>
+  <text x="40" y="508" class="sm" font-style="italic">The accurate sentence is: VulnHunter produced 46 candidates under a bounded run, and human review is still pending.</text>
+</svg>

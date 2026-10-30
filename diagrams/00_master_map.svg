@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#565149"/></marker>
+    <marker id="arT" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2F6D74"/></marker>
+    <marker id="arH" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#C84429"/></marker>
+    <style>
+      text{fill:#151412}
+      .h{font-size:15px;font-weight:bold}
+      .lbl{font-size:12.5px;font-weight:bold}
+      .sub{font-size:10.5px;fill:#565149}
+      .tag{font-size:9px;fill:#9C9388;font-weight:bold}
+      .kick{font-size:11px;font-weight:bold;letter-spacing:.5px}
+      .tool{fill:#2F6D74}.harn{fill:#C84429}.steel{fill:#6E7B8B}
+    </style>
+  </defs>
+  <rect width="1200" height="780" fill="#FCFAF6"/>
+
+  <!-- header -->
+  <text x="40" y="40" font-size="24" font-weight="bold">VulnHunter and crAPI Experiment Architecture</text>
+  <text x="40" y="62" class="sub" font-size="12.5">Security tool and experiment harness · crAPI A2 · VH-CRAPI-FULL-001-A2</text>
+
+  <!-- legend -->
+  <g transform="translate(760,20)">
+    <rect x="0" y="0" width="400" height="52" rx="6" fill="#fff" stroke="#D8D2C6"/>
+    <rect x="12" y="12" width="12" height="12" rx="2" fill="#2F6D74"/><text x="30" y="22" class="sub">VulnHunter (tool)</text>
+    <rect x="150" y="12" width="12" height="12" rx="2" fill="#C84429"/><text x="168" y="22" class="sub">Experiment harness</text>
+    <rect x="305" y="12" width="12" height="12" rx="2" fill="#6E7B8B"/><text x="323" y="22" class="sub">Evidence</text>
+    <rect x="12" y="32" width="16" height="11" rx="2" fill="none" stroke="#565149"/><text x="34" y="41" class="sub">observed in this run</text>
+    <rect x="185" y="32" width="16" height="11" rx="2" fill="none" stroke="#565149" stroke-dasharray="3 2"/><text x="207" y="41" class="sub">documented, not run</text>
+  </g>
+
+  <!-- ============ TOOL PANEL ============ -->
+  <rect x="40" y="92" width="500" height="470" rx="10" fill="#EEF3F3" stroke="#2F6D74" stroke-width="2"/>
+  <text x="60" y="120" class="kick tool">VULNHUNTER · THE TOOL</text>
+  <text x="60" y="138" class="sub">Capital One, open source · prompt-only Claude Code skill · Opus</text>
+  <text x="60" y="156" class="sub" font-style="italic">SKILL.md dispatches the phases.</text>
+  <text x="60" y="169" class="sub" font-style="italic">Phase findings stay outside the orchestrator's context.</text>
+
+  <!-- Hunt pipeline steps -->
+  <g>
+    <!-- step template: box + label + phase + tag -->
+    <rect x="60" y="176" width="460" height="40" rx="6" fill="#fff" stroke="#2F6D74"/>
+    <circle cx="82" cy="196" r="11" fill="#2F6D74"/><text x="82" y="200" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+    <text x="102" y="193" class="lbl">Recon</text><text x="102" y="209" class="sub">input inventory · partition codebase · reachability  (phase1)</text>
+    <text x="512" y="199" class="tag" text-anchor="end">S4 · R02</text>
+
+    <rect x="60" y="222" width="460" height="40" rx="6" fill="#fff" stroke="#2F6D74"/>
+    <circle cx="82" cy="242" r="11" fill="#2F6D74"/><text x="82" y="246" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+    <text x="102" y="239" class="lbl">Hunt — parallel class agents</text><text x="102" y="255" class="sub">injection · navigation/access · logic/crypto + sink-driven  (phase2)</text>
+    <text x="512" y="245" class="tag" text-anchor="end">S4 · R03</text>
+
+    <rect x="60" y="268" width="460" height="40" rx="6" fill="#EAF1F1" stroke="#2F6D74" stroke-width="2.2"/>
+    <circle cx="82" cy="288" r="11" fill="#2F6D74"/><text x="82" y="292" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">2b</text>
+    <text x="102" y="285" class="lbl">Falsification — Hunt phase 2b</text><text x="102" y="301" class="sub">tries to DISPROVE each candidate · ~half eliminated</text>
+    <text x="512" y="291" class="tag" text-anchor="end">S12 · R03</text>
+
+    <rect x="60" y="314" width="460" height="40" rx="6" fill="#fff" stroke="#2F6D74"/>
+    <circle cx="82" cy="334" r="11" fill="#2F6D74"/><text x="82" y="338" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+    <text x="102" y="331" class="lbl">Reproduce</text><text x="102" y="347" class="sub">PoC · executable exploit test · fix strategy  (phase3)</text>
+    <text x="512" y="337" class="tag" text-anchor="end">S13 · R06</text>
+
+    <rect x="60" y="360" width="460" height="40" rx="6" fill="#fff" stroke="#2F6D74"/>
+    <circle cx="82" cy="380" r="11" fill="#2F6D74"/><text x="82" y="384" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">3d</text>
+    <text x="102" y="377" class="lbl">Sweep</text><text x="102" y="393" class="sub">grep every confirmed root cause across the whole tree  (phase3d)</text>
+    <text x="512" y="383" class="tag" text-anchor="end">S14 · R03</text>
+
+    <rect x="60" y="406" width="460" height="40" rx="6" fill="#fff" stroke="#2F6D74"/>
+    <circle cx="82" cy="426" r="11" fill="#2F6D74"/><text x="82" y="430" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+    <text x="102" y="423" class="lbl">Report</text><text x="102" y="439" class="sub">orchestrator compiles the final report  (phase4)</text>
+    <text x="512" y="429" class="tag" text-anchor="end">S20</text>
+  </g>
+  <!-- connecting spine arrow -->
+  <line x1="52" y1="196" x2="52" y2="426" stroke="#2F6D74" stroke-width="2"/>
+  <!-- not-run band -->
+  <rect x="60" y="456" width="460" height="88" rx="6" fill="#F4EEE2" stroke="#2F6D74" stroke-width="1.4" stroke-dasharray="5 3"/>
+  <text x="72" y="476" class="lbl tool">Documented upstream, but not used in this run</text>
+  <text x="72" y="496" class="sub">/vulnhunter-fix · /vulnhunt-fix-verify</text>
+  <text x="72" y="513" class="sub">harness/ · vulnhunter-agent/</text>
+  <text x="72" y="533" class="sub" font-style="italic">Available upstream; not used in this experiment. (S7)</text>
+
+  <!-- ============ SEAM ============ -->
+  <text x="600" y="120" class="kick" text-anchor="middle" transform="rotate(0)">THE SEAM</text>
+  <g font-size="10" fill="#565149" text-anchor="middle">
+    <!-- authority down -->
+    <line x1="540" y1="250" x2="640" y2="250" stroke="#C84429" stroke-width="1.6" marker-end="url(#arT)"/>
+    <text x="590" y="242">signed scope</text><text x="590" y="264" fill="#C84429">authorizes /vulnhunt</text>
+    <!-- spawn -->
+    <line x1="640" y1="330" x2="540" y2="330" stroke="#C84429" stroke-width="1.6" marker-end="url(#arT)"/>
+    <text x="590" y="322">identity-proven</text><text x="590" y="344" fill="#C84429">spawn</text>
+    <!-- taps up -->
+    <line x1="540" y1="410" x2="640" y2="410" stroke="#6E7B8B" stroke-width="1.6" marker-end="url(#arH)"/>
+    <text x="590" y="402">every event</text><text x="590" y="424" class="steel">telemetry taps</text>
+  </g>
+
+  <!-- ============ HARNESS PANEL ============ -->
+  <rect x="660" y="92" width="500" height="470" rx="10" fill="#FBEEEA" stroke="#C84429" stroke-width="2"/>
+  <text x="680" y="120" class="kick harn">CRAPI EXPERIMENT HARNESS</text>
+  <text x="680" y="138" class="sub">built to authorize, limit, and record one live run</text>
+  <text x="680" y="154" class="sub" font-style="italic">control engine (3,033 lines) + crAPI adapter (735 lines)</text>
+  <text x="680" y="168" class="sub" font-style="italic">VulnHunter source unchanged</text>
+
+  <g>
+    <rect x="680" y="176" width="460" height="52" rx="6" fill="#fff" stroke="#C84429"/>
+    <text x="694" y="196" class="lbl harn">P1 · Rules of engagement — signed scope</text>
+    <text x="694" y="214" class="sub">canonical bytes · ssh-keygen verify · reconstruction · one-attempt</text>
+    <text x="1132" y="200" class="tag" text-anchor="end">S16/S21 · R01</text>
+
+    <rect x="680" y="234" width="460" height="52" rx="6" fill="#fff" stroke="#C84429"/>
+    <text x="694" y="254" class="lbl harn">P2 · Exact machine scope</text>
+    <text x="694" y="272" class="sub">immutable source export · tool allow/deny · loopback-only egress</text>
+    <text x="1132" y="258" class="tag" text-anchor="end">S5/S16 · R02</text>
+
+    <rect x="680" y="292" width="460" height="52" rx="6" fill="#fff" stroke="#C84429"/>
+    <text x="694" y="312" class="lbl harn">P3 · Separate run records</text>
+    <text x="694" y="330" class="sub">enforcement (6) · operations (118) · evidence+decision (3) + raw</text>
+    <text x="1132" y="316" class="tag" text-anchor="end">S16/S20 · R03</text>
+
+    <rect x="680" y="350" width="460" height="52" rx="6" fill="#fff" stroke="#C84429"/>
+    <text x="694" y="370" class="lbl harn">P4 · Control engine — launch + monitor</text>
+    <text x="694" y="388" class="sub">identity-proven spawn · 4 stop conditions · watched every 5 s</text>
+    <text x="1132" y="374" class="tag" text-anchor="end">S16/S17 · R04</text>
+
+    <rect x="680" y="408" width="460" height="52" rx="6" fill="#fff" stroke="#C84429"/>
+    <text x="694" y="428" class="lbl harn">P5 · Restricted local target</text>
+    <text x="694" y="446" class="sub">0 published ports · hidden evaluator · web-only tunnel · teardown</text>
+    <text x="1132" y="434" class="tag" text-anchor="end">S10/S16 · R05</text>
+
+    <rect x="680" y="470" width="460" height="74" rx="6" fill="#F4EEE2" stroke="#C84429" stroke-width="1.2"/>
+    <text x="694" y="490" class="lbl harn">Builder, runner, and human decision</text>
+    <text x="694" y="508" class="sub">builder authored the harness · RH signed the scope</text>
+    <text x="694" y="525" class="sub">runner executed /vulnhunt · harness watched · human decides</text>
+    <text x="1132" y="538" class="tag" text-anchor="end">S16 · AGENT_RAIL</text>
+  </g>
+
+  <!-- ============ EVIDENCE BAND ============ -->
+  <rect x="40" y="580" width="1120" height="160" rx="10" fill="#EDEFF1" stroke="#6E7B8B" stroke-width="2"/>
+  <text x="60" y="608" class="kick steel">EVIDENCE LINEAGE · run to human-readable page</text>
+  <g>
+    <rect x="60" y="624" width="180" height="80" rx="6" fill="#fff" stroke="#6E7B8B"/>
+    <text x="150" y="655" text-anchor="middle" font-size="22" font-weight="bold" class="steel">4,834</text>
+    <text x="150" y="676" text-anchor="middle" class="sub">raw tool events</text>
+    <text x="150" y="692" text-anchor="middle" class="tag">verbatim</text>
+    <line x1="240" y1="664" x2="276" y2="664" stroke="#6E7B8B" stroke-width="1.6" marker-end="url(#arH)"/>
+
+    <rect x="278" y="624" width="196" height="80" rx="6" fill="#fff" stroke="#6E7B8B"/>
+    <text x="376" y="652" text-anchor="middle" font-size="16" font-weight="bold" class="steel">3 records + phases</text>
+    <text x="376" y="674" text-anchor="middle" class="sub">controller records +</text>
+    <text x="376" y="689" text-anchor="middle" class="sub">the tool's own reports</text>
+    <line x1="474" y1="664" x2="510" y2="664" stroke="#6E7B8B" stroke-width="1.6" marker-end="url(#arH)"/>
+
+    <rect x="512" y="624" width="180" height="80" rx="6" fill="#fff" stroke="#6E7B8B"/>
+    <text x="602" y="655" text-anchor="middle" font-size="22" font-weight="bold" class="steel">46</text>
+    <text x="602" y="676" text-anchor="middle" class="sub">candidate packages</text>
+    <text x="602" y="692" text-anchor="middle" class="tag">PoC + test + trace</text>
+    <line x1="692" y1="664" x2="728" y2="664" stroke="#6E7B8B" stroke-width="1.6" marker-end="url(#arH)"/>
+
+    <rect x="730" y="624" width="180" height="80" rx="6" fill="#fff" stroke="#6E7B8B"/>
+    <text x="820" y="655" text-anchor="middle" font-size="22" font-weight="bold" class="steel">1</text>
+    <text x="820" y="676" text-anchor="middle" class="sub">workbook · 46 rows</text>
+    <text x="820" y="692" text-anchor="middle" class="tag">sort · disposition</text>
+    <line x1="910" y1="664" x2="946" y2="664" stroke="#C84429" stroke-width="1.8" marker-end="url(#arH)"/>
+
+    <rect x="948" y="624" width="190" height="80" rx="6" fill="#C84429"/>
+    <text x="1043" y="652" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">the REVIEW line</text>
+    <text x="1043" y="674" text-anchor="middle" font-size="10.5" fill="#fff">a named human decides</text>
+    <text x="1043" y="691" text-anchor="middle" font-size="10.5" fill="#fff" font-weight="bold">still PENDING</text>
+  </g>
+  <text x="60" y="726" class="sub">Every hop is lossless and fingerprint-linked — a workbook row walks back to the raw bytes. Only the last arrow needs a human. <tspan class="tag">S9 → S20</tspan></text>
+</svg>
