@@ -14,7 +14,7 @@
     <!-- build agent -->
     <rect x="40" y="90" width="200" height="360" rx="10" fill="#FBEEEA" stroke="#C84429" stroke-width="1.6"/>
     <text x="140" y="116" text-anchor="middle" class="lbl" fill="#C84429">builder</text>
-    <text x="140" y="134" text-anchor="middle" class="sm">Cowork / BuildWorks</text>
+    <text x="140" y="134" text-anchor="middle" class="sm">Builder agent (Cowork)</text>
     <line x1="56" y1="146" x2="224" y2="146" stroke="#C84429" stroke-width="0.75"/>
     <text x="56" y="168" class="can">CAN</text>
     <text x="56" y="186" class="sm">author engine + adapter</text>
