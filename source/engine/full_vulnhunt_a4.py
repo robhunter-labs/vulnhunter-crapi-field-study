@@ -2511,7 +2511,7 @@ def command_target_preflight(args: argparse.Namespace) -> int:
             + [
                 str(NODE_RUNTIME_PATH),
                 "-e",
-                "fetch('https://www.alchemy.com/').then(()=>process.exit(9)).catch(()=>process.exit(0))",
+                "fetch('https://example.com/').then(()=>process.exit(9)).catch(()=>process.exit(0))",
             ],
             cwd=workspace / "runtime-target",
             env=target_service_environment(workspace),
