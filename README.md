@@ -1,6 +1,6 @@
 # Capital One’s VulnHunter on OWASP crAPI — an independent field study
 
-What does an agentic security tool actually give a penetration-testing program after it has generated candidates—and what still has to happen before an enterprise can use them? This repository accompanies [the field study on Rob Hunter Works](https://robhunterworks.com/writing/vulnhunter-crapi/). It is independent work, not a Capital One or OWASP project, endorsement, or benchmark.
+What does an agentic security tool actually give a penetration-testing program after it has generated candidates, and what still has to happen before an enterprise can use them? To get closer to an answer, I set up Capital One’s VulnHunter against a target I controlled and watched where the work went. This repository holds the working side of that field study, [*Capital One’s VulnHunter: From Source Code to Live Testing*](https://robhunterworks.com/writing/vulnhunter-crapi/) on robhunterworks.com. It is independent work, not a Capital One or OWASP project, endorsement, or benchmark.
 
 The subject was [Capital One’s VulnHunter](https://github.com/capitalone/vulnhunter), pinned at [`4042d34609ff85e0029dd55743b9c3f677cc984a`](https://github.com/capitalone/vulnhunter/commit/4042d34609ff85e0029dd55743b9c3f677cc984a), run against [OWASP crAPI](https://github.com/OWASP/crAPI) v1.1.6, pinned at [`700f03d12a392d9e408260b4beae72ed02a4a1a4`](https://github.com/OWASP/crAPI/commit/700f03d12a392d9e408260b4beae72ed02a4a1a4), in a local live instance. Capital One released an unusually substantial tool and workflow to the community. This study examines its Hunt path and the experiment system built around it; it does not repackage VulnHunter or crAPI source.
 
@@ -22,7 +22,7 @@ The agent runtime was Claude Code. The engine requested the `opus` alias and ref
 
 | Component | What it did |
 |---|---|
-| [`source/engine/`](source/engine/) | Pinned source/tool preparation, signed scope, budget/identity controls, isolated agent run, raw capture, progress monitoring, and validation. The engine originated in an earlier Juice Shop run and was adapted for crAPI. |
+| [`source/engine/`](source/engine/) | Pinned source/tool preparation, signed scope, budget/identity controls, isolated agent run, raw capture, progress monitoring, and validation. The engine originated in an earlier run against OWASP Juice Shop and was adapted for crAPI. |
 | [`source/controller/`](source/controller/) | crAPI target adapter, local runtime boundary, scope contract, prompt, and post-run revalidation. |
 | [`source/qualification/`](source/qualification/) | Local crAPI runtime qualification, including controlled account setup and cross-principal test behavior. |
 | [`source/review-workbench/`](source/review-workbench/) | Candidate packet preparation, evidence-binding checks, explicit human dispositions, and portable provider-free tests. |
@@ -46,9 +46,9 @@ These commands run provider-free fixtures; they do not validate a new VulnHunter
 - The qualifier creates the hidden key exclusively in owner-private directories, and the model settings deny both `/private/tmp` and `/tmp` spellings. Those settings have not been tested inside the actual provider sandbox. The model and controller share an OS account, so local file mode alone is not a confidentiality boundary.
 - In the public copy, the egress-denial probe host was replaced with a reserved example domain. Do not use this historical fixed-path evaluator for real credentials or on a shared host.
 
-## What the reader can take away
+## What I took away
 
-The source shows the difference between the **tool** (VulnHunter), the **experiment harness** (the external controller and bounded runtime), and the **human review workbench**. The generated packages carried useful technical evidence, but the enterprise intake record still needed a named reviewer, business impact, CVSS assessment, asset owner, ticket routing, remediation decision, and retest plan. More candidate throughput is valuable only when those next stages can absorb it.
+The source keeps apart three layers that are easy to collapse: the **tool** (VulnHunter), the **experiment harness** (the external controller and bounded runtime), and the **human review workbench**. The generated packages carried useful technical evidence, but an enterprise intake record would still need a named reviewer, business impact, Common Vulnerability Scoring System (CVSS) assessment, asset owner, ticket routing, remediation decision, and retest plan. More candidate throughput is valuable only when those next stages can absorb it.
 
 This study is one independent learning event, not the first round of a scheduled head-to-head comparison, and it makes no ranking claim.
 
