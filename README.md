@@ -1,22 +1,27 @@
-# Capital One’s VulnHunter on OWASP crAPI — an independent field study
+# Capital One’s VulnHunter on OWASP crAPI: an independent field study
 
 What does an agentic security tool actually give a penetration-testing program after it has generated candidates, and what still has to happen before an enterprise can use them? To get closer to an answer, I set up Capital One’s VulnHunter against a target I controlled and watched where the work went. This repository holds the working side of that field study, [*Capital One’s VulnHunter: From Source Code to Live Testing*](https://robhunterworks.com/writing/vulnhunter-crapi/) on robhunterworks.com. It is independent work, not a Capital One or OWASP project, endorsement, or benchmark.
 
 The subject was [Capital One’s VulnHunter](https://github.com/capitalone/vulnhunter), pinned at [`4042d34609ff85e0029dd55743b9c3f677cc984a`](https://github.com/capitalone/vulnhunter/commit/4042d34609ff85e0029dd55743b9c3f677cc984a), run against [OWASP crAPI](https://github.com/OWASP/crAPI) v1.1.6, pinned at [`700f03d12a392d9e408260b4beae72ed02a4a1a4`](https://github.com/OWASP/crAPI/commit/700f03d12a392d9e408260b4beae72ed02a4a1a4), in a local live instance. Capital One released an unusually substantial tool and workflow to the community. This study examines its Hunt path and the experiment system built around it; it does not repackage VulnHunter or crAPI source.
 
-**Status: Observed.** One controlled run, recorded here. More studies are indexed in [ai-security-field-lab](https://github.com/robhunter-labs/ai-security-field-lab).
+**Status: Observed in one controlled run. Human review is pending.** The run retained **46 candidate packages**. Generated tests observed the predicted behavior for **39** packages; **7** remained conditional. **Human review was not completed, so none of the candidates was promoted to an accepted finding.** The 39 tests are not 39 distinct vulnerabilities, and the pending review cannot be read as 46 rejected findings or a false-positive rate. The run was not blind; public crAPI solution material remained available. VulnHunter Fix and separate Verify were not run.
 
 ## Start here
 
-**Try it in 5 minutes (no target, no API key):** the [synthetic first-use exercise](source/review-workbench/FIRST_USE.md) builds one sample review packet and shows the decision a human still has to make. Python 3.9+, standard library only.
+Two routes, depending on what you came for:
 
-The controlled, source-led run retained **46 candidate packages**. Generated tests observed the predicted behavior for **39** packages; **7** remained conditional. **Human review was not completed, so none of the candidates was promoted to an accepted finding.** The 39 tests are not 39 distinct vulnerabilities, and the pending review cannot be read as 46 rejected findings or a false-positive rate. The run was not blind; public crAPI solution material remained available. VulnHunter Fix and separate Verify were not run.
+| Route | Open | What you get |
+|---|---|---|
+| **Try the synthetic review exercise** (5 minutes, no target, no API key) | [FIRST_USE.md](source/review-workbench/FIRST_USE.md) | One sample review packet and the decision a human still has to make. Python 3.9+, standard library only. Checked on the included synthetic fixtures. |
+| **Inspect the historical run** | [STUDY.md](STUDY.md), then [Actual experiment source](#actual-experiment-source) | The protocol, the export-to-enterprise gap, the limits and the source of the experiment controls. It is a record to read, not a rerun: the controller can't run end-to-end from a fresh clone. |
 
-The diagrams show the operating model: [master map](diagrams/00_master_map.svg), [harness architecture](diagrams/05_harness_architecture.svg), [evidence lineage](diagrams/10_evidence_lineage.svg), and [authority boundary](diagrams/11_trust_authority.svg). Read [STUDY.md](STUDY.md) for the protocol, export-to-enterprise gap, and limits.
+The diagrams show the operating model: [master map](diagrams/00_master_map.svg), [harness architecture](diagrams/05_harness_architecture.svg), [evidence lineage](diagrams/10_evidence_lineage.svg), and [authority boundary](diagrams/11_trust_authority.svg).
+
+To cite the study, use the [v1.0.0 release](https://github.com/robhunter-labs/vulnhunter-crapi-field-study/releases/tag/v1.0.0). Corrections and questions belong in [the study discussion](https://github.com/robhunter-labs/vulnhunter-crapi-field-study/discussions/4) or an issue. More studies are indexed in [ai-security-field-lab](https://github.com/robhunter-labs/ai-security-field-lab).
 
 ## Actual experiment source
 
-This is the historical source of the experiment controls, not a toy reimplementation:
+This is the historical source of the experiment controls, kept for inspection rather than rerunning:
 
 The agent runtime was Claude Code. The engine requested the `opus` alias and refused completion unless the root model resolved to `claude-opus-5`; subagents were allowed `claude-opus-4-8` or `claude-sonnet-5` (see `source/engine/full_vulnhunt_a4.py`).
 
